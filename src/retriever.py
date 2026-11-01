@@ -4,6 +4,7 @@ Search the saved document chunks.
 Hybrid retrieval = vector search + keyword search (BM25).
 """
 
+from functools import lru_cache
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_chroma import Chroma
 from langchain_community.retrievers import BM25Retriever
@@ -13,8 +14,9 @@ from langchain_core.documents import Document
 from src.config import settings
 
 
+@lru_cache(maxsize=1)
 def get_embeddings():
-    """Same free embedding model we used during ingestion."""
+    """Same free embedding model we used during ingestion (cached in memory)."""
     return HuggingFaceEmbeddings(
         model_name="sentence-transformers/all-MiniLM-L6-v2"
     )

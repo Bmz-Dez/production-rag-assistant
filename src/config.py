@@ -1,9 +1,10 @@
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 from pathlib import Path
 
+
 class Settings(BaseSettings):
-    groq_api_key: str
-    groq_chat_model: str = "qwen/qwen3.6-27b"
+    groq_api_key: str = ""
+    groq_chat_model: str = "qwen/qwen3.8-27b"
 
     # Paths
     data_dir: Path = Path("data")
@@ -16,8 +17,10 @@ class Settings(BaseSettings):
     # Retrieval
     top_k: int = 8
 
-    class Config:
-        env_file = ".env"
-        env_file_encoding = "utf-8"
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="utf-8",
+    )
+
 
 settings = Settings()
